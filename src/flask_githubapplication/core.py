@@ -57,6 +57,7 @@ class GitHubApp(object):
     """
     def __init__(self, app=None):
         self._hook_mappings = {}
+        self._access_token = None
         if app is not None:
             self.init_app(app)
 
@@ -136,15 +137,19 @@ class GitHubApp(object):
         raise RuntimeError('Payload is only available in the context of a GitHub hook request')
 
     @property
+    def installation_token(self):
+        return self._access_token
+
+    @property
     def client(self):
         """GitHub client authenticated as GitHub app installation"""
         ctx = _app_ctx_stack.top
         if ctx is not None:
             if not hasattr(ctx, 'githubapp_installation'):
-                access_token = self.get_access_token(self.payload['installation']['id']).token
-                ctx.githubapp_installation = GhApi(token=access_token)
+                self._access_token = self.get_access_token(self.payload['installation']['id']).token
+                ctx.githubapp_installation = GhApi(token=self._access_token)
             return ctx.githubapp_installation
-
+    
     def _create_jwt(self, expiration=60):
         """
         Creates a signed JWT, valid for 60 seconds by default.
@@ -158,7 +163,6 @@ class GitHubApp(object):
 
         if isinstance(encrypted, bytes):
             encrypted = encrypted.decode("utf-8")
-
         return encrypted
 
     def get_access_token(self, installation_id, user_id=None):
@@ -177,11 +181,10 @@ class GitHubApp(object):
             headers={
                 "Authorization": f"Bearer {self._create_jwt()}",
                 "Accept": "application/vnd.github.v3+json",
-                "User-Agent": "PyGithub/Python",
+                "User-Agent": "Flask-GithubApplication/Python",
             },
             json=body,
         )
-        print(response.json()['token'])
         if response.status_code == 201:
             return InstallationAuthorization(
                 token = response.json()['token'],

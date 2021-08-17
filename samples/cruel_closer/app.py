@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask
-from flask_githubapp import GitHubApp
+from flask_githubapplication import GitHubApp
 
 app = Flask(__name__)
 
@@ -22,8 +22,9 @@ def cruel_closer():
     owner = github_app.payload['repository']['owner']['login']
     repo = github_app.payload['repository']['name']
     num = github_app.payload['issue']['number']
-    github_app.installation_client.issues.create_comment(owner, repo, num, "Couldnt replicate")
-    github_app.installation_client.issues.update(owner=owner, repo=repo, issue_number=num, state='closed')
+    client = github_app.client
+    client.issues.create_comment(owner=owner, repo=repo, issue_number=num, body="Could not replicate.")
+    client.issues.update(owner=owner, repo=repo, issue_number=num, state="closed")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=3000, debug=True)
