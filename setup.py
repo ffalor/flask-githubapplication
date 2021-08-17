@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-with open(os.path.join(os.path.dirname(__file__), 'src/flask_githubapp/version.py'), 'r') as f:
+with open(os.path.join(os.path.dirname(__file__), 'src/flask_githubapplication/version.py'), 'r') as f:
     exec(f.read())
 
 setup(
