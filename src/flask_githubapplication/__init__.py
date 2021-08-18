@@ -2,8 +2,6 @@ from .core import (
     GitHubApp
 )
 
-from .version import __version__
-
 __all__ = ['GitHubApp']
 
 # Set default logging handler to avoid "No handler found" warnings.
