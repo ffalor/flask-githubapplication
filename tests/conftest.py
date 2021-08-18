@@ -2,7 +2,7 @@ import pytest
 
 from flask import Flask
 
-from flask_githubapp import GitHubApp
+from flask_githubapplication import GitHubApp
 
 
 @pytest.fixture

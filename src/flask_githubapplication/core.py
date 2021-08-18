@@ -95,7 +95,7 @@ class GitHubApp(object):
         required_settings = ['GITHUBAPP_ID', 'GITHUBAPP_KEY', 'GITHUBAPP_SECRET']
         for setting in required_settings:
             if not setting in app.config:
-                raise RuntimeError("Flask-GitHubApp requires the '%s' config var to be set" % setting)
+                raise RuntimeError("Flask-GitHubApplication requires the '%s' config var to be set" % setting)
         
         if app.config.get('GITHUBAPP_URL'):
             self.base_url = app.config.get('GITHUBAPP_URL')
@@ -236,7 +236,6 @@ class GitHubApp(object):
         if not request.is_json:
             raise GitHubAppValidationError('Invalid HTTP Content-Type header for JSON body '
                                            '(must be application/json or application/*+json).')
-
         try:
             request.json
         except BadRequest:
