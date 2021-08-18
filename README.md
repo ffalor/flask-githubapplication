@@ -1,5 +1,7 @@
 # Flask-GithubApplication
 
+![PyPI - Downloads](https://img.shields.io/pypi/dm/Flask-GithubApplication) [![CodeQL](https://github.com/ffalor/flask-githubapplication/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/ffalor/flask-githubapplication/actions/workflows/codeql-analysis.yml)
+
 Flask extension for rapid Github app development in Python, in the spirit of [probot](https://probot.github.io/)
 
 GitHub Apps help automate GitHub workflows. Examples include preventing merging of pull requests with "WIP" in the title or closing stale issues and pull requests.
@@ -7,6 +9,7 @@ GitHub Apps help automate GitHub workflows. Examples include preventing merging 
 ## Getting Started
 
 ### Installation
+
 To install Flask-GitHubApplication:
 
 `pip install flask-githubapplication`
@@ -17,7 +20,7 @@ Follow GitHub's docs on [creating a github app](https://developer.github.com/app
 
 > You can, in principle, register any type of payload to be sent to the app!
 
-Once you do this, please note down the GitHub app Id, the GitHub app secret, and make sure to [create a private key](https://docs.github.com/en/developers/apps/authenticating-with-github-apps#generating-a-private-key) for it! These three elements are __required__ to run your app.
+Once you do this, please note down the GitHub app Id, the GitHub app secret, and make sure to [create a private key](https://docs.github.com/en/developers/apps/authenticating-with-github-apps#generating-a-private-key) for it! These three elements are **required** to run your app.
 
 #### Build the Flask App
 
@@ -107,7 +110,7 @@ You can find an example on how to init all these config variables in the [cruel_
 
 #### Cruel Closer
 
-The cruel_closer sample app will use information of the received payload (which is received every time an issue is opened), will _find_ said issue and **close it** without regard. 
+The cruel*closer sample app will use information of the received payload (which is received every time an issue is opened), will \_find* said issue and **close it** without regard.
 
 ## Credits:
 
