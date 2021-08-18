@@ -1,6 +1,4 @@
-# flask-githubapp
-
-Heavy WIP fork of [flask-github](https://github.com/bradshjg/flask-githubapp). This version will be using [GhApi](https://ghapi.fast.ai/) instead of [Github3.py](https://github3py.readthedocs.io/en/master/) due to missing endpoints and lack of documentation.
+# Flask-GithubApplication
 
 Flask extension for rapid Github app development in Python, in the spirit of [probot](https://probot.github.io/)
 
@@ -9,13 +7,11 @@ GitHub Apps help automate GitHub workflows. Examples include preventing merging 
 ## Getting Started
 
 ### Installation
-To install Flask-GitHubApp:
+To install Flask-GitHubApplication:
 
-`pip install flask-githubapp`
+`pip install flask-githubapplication`
 
-Or better yet, add it to your app's requirements.txt file! ;)
-
-#### Create GitHub App
+### Create GitHub App
 
 Follow GitHub's docs on [creating a github app](https://developer.github.com/apps/building-github-apps/creating-a-github-app/).
 
@@ -35,6 +31,7 @@ def cruel_closer():
 ```
 
 Will trigger whenever the app receives a Github payload with the `X-Github-Event` header set to `issues`, and an `action` field in the payload field containing `opened`
+
 Following this logic, you can make your app react in a unique way for every combination of event and action. Refer to the Github documentation for all the details about events and the actions they support, as well as for sample payloads for each.
 You can also have something like
 
@@ -48,7 +45,7 @@ The above function will do `stuff here` for _every_ `issues` event received. Thi
 
 Inside the function, you can access the received request via the conveniently named `request` variable. You can access its payload by simply getting it: `request.payload`
 
-You can find a complete example (containing this cruel_closer function), in the samples folder of this repo. It is a fully functioning flask Github App. Try to guess what it does!
+You can find a complete example (containing this cruel_closer function), in the samples folder of this repo. It is a fully functioning flask Github App.
 
 #### Run it locally
 
@@ -89,11 +86,9 @@ Bear in mind that you will need to run the app _somewhere_. It is possible, and 
 `payload`: In the context of a hook request, a Python dict representing the hook payload (raises a `RuntimeError`
 outside a hook context).
 
-`installation_client`: In the context of a hook request, a [github3.py](https://github3py.readthedocs.io/en/master/) client authenticated as the app installation (raises a `RuntimeError` outside a hook context.)
+`client`: In the context of a hook request, a [GhApi](https://ghapi.fast.ai/) client authenticated as the app installation (raises a `RuntimeError` outside a hook context.)
 
-`app_client`: A [github3.py](https://github3py.readthedocs.io/en/master/) client authenticated as the app.
-
-`installation_token`: The token used to authenticate as the app installation (useful for passing to async tasks).
+`installation_token`: The token used to authenticate as the app installation. This can be used to call api's not supported by `GhApi` like [Github's GraphQL API](https://docs.github.com/en/graphql/reference)
 
 ## Configuration
 
@@ -108,9 +103,16 @@ verification.
 
 `GITHUBAPP_ROUTE`: Path used for GitHub hook requests as a string. Default: '/'
 
-You can find an example on how to init all these config variables in the [cruel_closer sample app](https://github.com/bradshjg/flask-githubapp/tree/master/samples/cruel_closer)
+You can find an example on how to init all these config variables in the [cruel_closer sample app](./samples/cruel_closer)
 
 #### Cruel Closer
 
 The cruel_closer sample app will use information of the received payload (which is received every time an issue is opened), will _find_ said issue and **close it** without regard. 
-That's just r00d!
+
+## Credits:
+
+Much of this project originated from [flask-github](https://github.com/bradshjg/flask-githubapp). It currently uses [Github3.py](https://github3py.readthedocs.io/en/master/) which was missing many endpoints and lacked good documentation.
+
+This version will be using [GhApi](https://ghapi.fast.ai/) instead since it has 100% api coverage.
+
+Due to the breaking nature and downstream effects of this changes, a new project was created.

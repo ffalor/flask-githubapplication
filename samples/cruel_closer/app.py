@@ -13,9 +13,9 @@ with open(os.environ['GITHUBAPP_KEY_PATH'], 'rb') as key_file:
 app.config['GITHUBAPP_SECRET'] = os.environ['GITHUBAPP_SECRET']
 
 github_app = GitHubApp(app)
-@app.route('/')
+@app.route('/health')
 def index():
-    return 'Hello World!'
+    return 'Ok'
 
 @github_app.on('issues.opened')
 def cruel_closer():
