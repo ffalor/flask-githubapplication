@@ -1,15 +1,11 @@
 import os
 from setuptools import setup, find_packages
 
-with open(os.path.join(os.path.dirname(__file__), 'src/flask_githubapplication/version.py'), 'r') as f:
-    exec(f.read())
-
 with open(os.path.join(os.path.dirname(__file__), 'README.md'), 'r') as f:
     long_description = f.read()
 
 setup(
     name='Flask-GitHubApplication',
-    version=__version__,
     url='https://github.com/ffalor/flask-githubapplication',
     project_urls={
         "Bug Tracker": "https://github.com/ffalor/flask-githubapplicatio/issues",
