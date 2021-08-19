@@ -1,6 +1,8 @@
 import json
 from unittest.mock import MagicMock
 
+import responses
+
 from ghapi.all import GhApi
 
 from flask_githubapplication import GitHubApp
@@ -216,3 +218,58 @@ def test_missing_event_header_returns_error(github_app):
             'status': 'ERROR',
             'description': 'Missing X-GitHub-Event HTTP header.'
         }
+
+@responses.activate
+def test_list_installations(app, mocker):
+
+    github_app = GitHubApp(app)
+
+    response_body = {
+        'example': 'response'
+    }
+
+    params = {'page': '1', 'per_page': '30'}
+
+    mocker.patch('flask_githubapplication.core.GitHubApp._create_jwt')
+    responses.add(
+        responses.GET,
+        f"{github_app.base_url}/app/installations",
+        json=response_body,
+        status=200,
+    )
+
+    with app.app_context():
+        response = github_app.list_installations()
+
+    assert response == response_body
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.params == params
+
+@responses.activate
+def test_list_installations_with_overrides(app, mocker):
+
+    per_page = 100
+    page = 2
+
+    github_app = GitHubApp(app)
+
+    response_body = {
+        'example': 'response'
+    }
+
+    params = {'page': str(page), 'per_page': str(per_page)}
+
+    mocker.patch('flask_githubapplication.core.GitHubApp._create_jwt')
+    responses.add(
+        responses.GET,
+        f"{github_app.base_url}/app/installations",
+        json=response_body,
+        status=200,
+    )
+
+    with app.app_context():
+        response = github_app.list_installations(per_page=per_page, page=page)
+
+    assert response == response_body
+    assert len(responses.calls) == 1
+    assert responses.calls[0].request.params == params
