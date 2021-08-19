@@ -22,7 +22,7 @@ def cruel_closer():
     owner = github_app.payload['repository']['owner']['login']
     repo = github_app.payload['repository']['name']
     num = github_app.payload['issue']['number']
-    client = github_app.client
+    client = github_app.client()
     client.issues.create_comment(owner=owner, repo=repo, issue_number=num, body="Could not replicate.")
     client.issues.update(owner=owner, repo=repo, issue_number=num, state="closed")
 

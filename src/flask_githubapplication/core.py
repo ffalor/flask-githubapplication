@@ -143,13 +143,14 @@ class GitHubApp(object):
     def installation_token(self):
         return self._access_token
 
-    @property
-    def client(self):
+    def client(self, installation_id=None):
         """GitHub client authenticated as GitHub app installation"""
         ctx = _app_ctx_stack.top
         if ctx is not None:
             if not hasattr(ctx, 'githubapp_installation'):
-                self._access_token = self.get_access_token(self.payload['installation']['id']).token
+                if installation_id is None:
+                    installation_id = self.payload['installation']['id']
+                self._access_token = self.get_access_token(installation_id).token
                 ctx.githubapp_installation = GhApi(token=self._access_token)
             return ctx.githubapp_installation
     
