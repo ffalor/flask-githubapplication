@@ -23,6 +23,9 @@ class GitHubAppValidationError(Exception):
 class GitHubAppBadCredentials(Exception):
     pass
 
+class GithubUnauthorized(Exception):
+    pass
+
 class GithubAppUnkownObject(Exception):
     pass
 
@@ -189,6 +192,43 @@ class GitHubApp(object):
             return InstallationAuthorization(
                 token = response.json()['token'],
                 expires_at = response.json()['expires_at']
+            )
+        elif response.status_code == 403:
+            raise GitHubAppBadCredentials(
+                status=response.status_code, data=response.text
+            )
+        elif response.status_code == 404:
+            raise GithubAppUnkownObject(
+                status=response.status_code, data=response.text
+            )
+        raise Exception(
+            status=response.status_code, data=response.text
+        )
+
+    def list_installations(self, per_page=30, page=1):
+        """
+        GETs https://api.github.com/app/installations
+        :return: :obj: `list` of installations
+        """
+        params = {
+            "page": page,
+            "per_page": per_page
+        }
+        
+        response = requests.get(
+            f"{self.base_url}/app/installations",
+            headers={
+                "Authorization": f"Bearer {self._create_jwt()}",
+                "Accept": "application/vnd.github.v3+json",
+                "User-Agent": "Flask-GithubApplication/python"
+            },
+            params=params
+        )
+        if response.status_code == 200:
+            return response.json()
+        elif response.status_code == 401:
+            raise GithubUnauthorized(
+                status=response.status_code, data=response.text
             )
         elif response.status_code == 403:
             raise GitHubAppBadCredentials(
