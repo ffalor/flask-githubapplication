@@ -89,9 +89,11 @@ Bear in mind that you will need to run the app _somewhere_. It is possible, and 
 `payload`: In the context of a hook request, a Python dict representing the hook payload (raises a `RuntimeError`
 outside a hook context).
 
-`client`: In the context of a hook request, a [GhApi](https://ghapi.fast.ai/) client authenticated as the app installation (raises a `RuntimeError` outside a hook context.)
-
 `installation_token`: The token used to authenticate as the app installation. This can be used to call api's not supported by `GhApi` like [Github's GraphQL API](https://docs.github.com/en/graphql/reference)
+
+### `GithubApp` Instance Methods
+
+`client`: a [GhApi](https://ghapi.fast.ai/) client authenticated as the app installation (raises a `RuntimeError` inside a hook context without a valid request)
 
 ## Configuration
 
