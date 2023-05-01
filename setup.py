@@ -20,7 +20,7 @@ setup(
     long_description_content_type='text/markdown',
     zip_safe=False,
     install_requires=[
-        'flask==2.0.1',
+        'flask==2.3.2',
         'ghapi==0.1.19',
         'requests==2.22.0',
         'pyjwt[crypto]==2.1.0'
