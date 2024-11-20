@@ -22,7 +22,7 @@ setup(
     install_requires=[
         'flask==2.2.5',
         'ghapi==0.1.19',
-        'requests==2.31.0',
+        'requests==2.32.2',
         'pyjwt[crypto]==2.1.0'
     ],
     classifiers=[
